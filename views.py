@@ -9,3 +9,8 @@ class Index:
 class About:
     def __call__(self, request):
         return '200 OK', render('about.html', date=request.get('date', None))
+
+
+class Price:
+    def __call__(self, request):
+        return '200 OK', render('price.html', date=request.get('date', None))
