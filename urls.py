@@ -1,5 +1,6 @@
 from datetime import date
-from views import Index, About, Price
+from views import Index, About, Price, StudyPrograms, CoursesList, CreateCourse, CreateCategory, CategoryList, \
+    CopyCourse
 
 
 # front controller
@@ -11,10 +12,21 @@ def other_front(request):
     request['key'] = 'key'
 
 
-fronts = [secret_front, other_front]
+# For test, then will delete
+def method_front(request):
+    request['method'] = 'GET'
+
+
+fronts = [secret_front, other_front, method_front]
 
 routes = {
     '/': Index(),
     '/about/': About(),
     '/price/': Price(),
+    '/study_programs/': StudyPrograms(),
+    '/courses-list/': CoursesList(),
+    '/create-course/': CreateCourse(),
+    '/create-category/': CreateCategory(),
+    '/category-list/': CategoryList(),
+    '/copy-course/': CopyCourse(),
 }
