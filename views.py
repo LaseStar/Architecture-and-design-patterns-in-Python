@@ -2,41 +2,54 @@ from datetime import date
 
 from lase_framework.templator import render
 from patterns.creational import Engine, Logger
+from patterns.structural import AppRoute, Debug
 
 site = Engine()
 logger = Logger('main')
 
+routes = {}
+
 
 # главная страница
+@AppRoute(routes=routes, url='/')
 class Index:
+    @Debug(name='Index')
     def __call__(self, request):
         return '200 OK', render('index.html', objects_list=site.categories)
 
 
 # контроллер "О проекте"
+@AppRoute(routes=routes, url='/about/')
 class About:
+    @Debug(name='Index')
     def __call__(self, request):
         return '200 OK', render('about.html')
 
 
+@AppRoute(routes=routes, url='/price/')
 class Price:
+    @Debug(name='Price')
     def __call__(self, request):
         return '200 OK', render('price.html')
 
 
 # контроллер - Расписания
+@AppRoute(routes=routes, url='/study_programs/')
 class StudyPrograms:
+    @Debug(name='StudyPrograms')
     def __call__(self, request):
         return '200 OK', render('study_programs.html', date=date.today())
 
 
 # контроллер 404
 class NotFound404:
+    @Debug(name='NotFound404')
     def __call__(self, request):
         return '404 WHAT', '404 PAGE Not Found'
 
 
 # список курсов
+@AppRoute(routes=routes, url='/course-list/')
 class CoursesList:
     def __call__(self, request):
         logger.log('Список курсов')
@@ -51,6 +64,7 @@ class CoursesList:
 
 
 # создать курс
+@AppRoute(routes=routes, url='/create-course/')
 class CreateCourse:
     category_id = -1
 
@@ -87,6 +101,7 @@ class CreateCourse:
 
 
 # создать категорию
+@AppRoute(routes=routes, url='/create-category/')
 class CreateCategory:
     def __call__(self, request):
 
@@ -116,6 +131,7 @@ class CreateCategory:
 
 
 # список категорий
+@AppRoute(routes=routes, url='/category-list/')
 class CategoryList:
     def __call__(self, request):
         logger.log('Список категорий')
@@ -124,6 +140,7 @@ class CategoryList:
 
 
 # копировать курс
+@AppRoute(routes=routes, url='/copy-course/')
 class CopyCourse:
     def __call__(self, request):
         request_params = request['request_params']
