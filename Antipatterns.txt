@@ -1,0 +1,82 @@
+Magic Number
+Нет в коде
+
+Spaghetti Code
+Есть пересечения по разделам, требуется небольшая
+переработка кода
+
+Lasagna Code
+Нет в коде
+
+Blind faith
+Нет проверки входных данных
+
+Cryptic Code
+Нет в коде
+
+Hard Code
+Нет в коде, кроме жесткой типизации
+
+Soft Code
+Нет в коде
+
+Lava flow
+Есть нереализованные места.
+
+Anemic Domain Model
+Нет в коде
+
+God object
+Engine
+
+Poltergeist
+Есть нереализованные места.
+
+Singletons
+Лог еры
+
+Privatization
+Нет в коде
+
+Copy - Past
+Нет в коде
+
+Golden hammer
+Нет в коде
+
+Improbability factor
+Нет в коде
+
+Premature optimization
+Оптимизация не проводилась
+
+Reinventing the wheel
+Нет в коде
+
+Reinventing the square wheel
+Нет в коде
+
+Abstract inversion
+Нет в коде
+
+Big ball of mud
+Все в норме
+
+Input kludge
+Нет в коде
+
+Magic button
+Норма
+
+Mutilation
+Норма
+
+Stovepipe Enterprise
+Нет
+
+Stovepipe System
+Нет в коде
+
+Jumble
+Нет в коде
+
