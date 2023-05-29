@@ -1,10 +1,11 @@
 from datetime import date
 
 from lase_framework.templator import render
-from patterns.creational import Engine, Logger, MapperRegistry
-from patterns.structural import AppRoute, Debug
-from patterns.behavioral import EmailNotifier, SmsNotifier, ListView, CreateView, BaseSerializer
-from patterns.architectural_system_union import UnitOfWork
+from patterns.сreational_patterns import Engine, Logger, MapperRegistry
+from patterns.structural_patterns import AppRoute, Debug
+from patterns.behavioral_patterns import EmailNotifier, SmsNotifier, \
+    ListView, CreateView, BaseSerializer
+from architectural_system_pattern_unit_of_work import UnitOfWork
 
 site = Engine()
 logger = Logger('main')
@@ -16,7 +17,7 @@ UnitOfWork.get_current().set_mapper_registry(MapperRegistry)
 routes = {}
 
 
-# главная страница
+# контроллер - главная страница
 @AppRoute(routes=routes, url='/')
 class Index:
     @Debug(name='Index')
@@ -27,16 +28,9 @@ class Index:
 # контроллер "О проекте"
 @AppRoute(routes=routes, url='/about/')
 class About:
-    @Debug(name='Index')
+    @Debug(name='About')
     def __call__(self, request):
         return '200 OK', render('about.html')
-
-
-@AppRoute(routes=routes, url='/price/')
-class Price:
-    @Debug(name='Price')
-    def __call__(self, request):
-        return '200 OK', render('price.html')
 
 
 # контроллер - Расписания
@@ -44,8 +38,14 @@ class Price:
 class StudyPrograms:
     @Debug(name='StudyPrograms')
     def __call__(self, request):
-        return '200 OK', render('study_programs.html', date=date.today())
+        return '200 OK', render('study-programs.html', date=date.today())
 
+
+@AppRoute(routes=routes, url='/price/')
+class StudyPrograms:
+    @Debug(name='StudyPrograms')
+    def __call__(self, request):
+        return '200 OK', render('price.html', date=date.today())
 
 # контроллер 404
 class NotFound404:
@@ -54,8 +54,8 @@ class NotFound404:
         return '404 WHAT', '404 PAGE Not Found'
 
 
-# список курсов
-@AppRoute(routes=routes, url='/course-list/')
+# контроллер - список курсов
+@AppRoute(routes=routes, url='/courses-list/')
 class CoursesList:
     def __call__(self, request):
         logger.log('Список курсов')
@@ -69,7 +69,7 @@ class CoursesList:
             return '200 OK', 'No courses have been added yet'
 
 
-# создать курс
+# контроллер - создать курс
 @AppRoute(routes=routes, url='/create-course/')
 class CreateCourse:
     category_id = -1
@@ -110,7 +110,7 @@ class CreateCourse:
                 return '200 OK', 'No categories have been added yet'
 
 
-# создать категорию
+# контроллер - создать категорию
 @AppRoute(routes=routes, url='/create-category/')
 class CreateCategory:
     def __call__(self, request):
@@ -140,7 +140,7 @@ class CreateCategory:
                                     categories=categories)
 
 
-# список категорий
+# контроллер - список категорий
 @AppRoute(routes=routes, url='/category-list/')
 class CategoryList:
     def __call__(self, request):
@@ -149,8 +149,8 @@ class CategoryList:
                                 objects_list=site.categories)
 
 
-# копировать курс
 @AppRoute(routes=routes, url='/copy-course/')
+# контроллер - копировать курс
 class CopyCourse:
     def __call__(self, request):
         request_params = request['request_params']
@@ -174,7 +174,6 @@ class CopyCourse:
 
 @AppRoute(routes=routes, url='/student-list/')
 class StudentListView(ListView):
-    queryset = site.students
     template_name = 'student_list.html'
 
     def get_queryset(self):

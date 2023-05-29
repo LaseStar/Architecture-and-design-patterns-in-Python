@@ -1,8 +1,8 @@
 from copy import deepcopy
-from quopri import decodestring
-from patterns.behavioral import FileWriter, Subject
-from patterns.architectural_system_union import DomainObject
 from sqlite3 import connect
+from quopri import decodestring
+from behavioral_patterns import FileWriter, Subject
+from architectural_system_pattern_unit_of_work import DomainObject
 
 
 # абстрактный пользователь
@@ -17,23 +17,27 @@ class Teacher(User):
 
 
 # студент
-class Student(User):
-    def __int__(self, name):
+class Student(User, DomainObject):
+
+    def __init__(self, name):
         self.courses = []
-        super().__int__(name)
+        super().__init__(name)
 
 
+# порождающий паттерн Абстрактная фабрика - фабрика пользователей
 class UserFactory:
     types = {
         'student': Student,
         'teacher': Teacher
     }
 
+    # порождающий паттерн Фабричный метод
     @classmethod
     def create(cls, type_, name):
         return cls.types[type_](name)
 
 
+# порождающий паттерн Прототип - Курс
 class CoursePrototype:
     # прототип курсов обучения
 
@@ -59,17 +63,19 @@ class Course(CoursePrototype, Subject):
         self.notify()
 
 
-# интерактивный курс
+# Интерактивный курс
 class InteractiveCourse(Course):
     pass
 
 
-# курс в записи
+# Курс в записи
 class RecordCourse(Course):
     pass
 
 
+# Категория
 class Category:
+    # реестр?
     auto_id = 0
 
     def __init__(self, name, category):
@@ -86,35 +92,20 @@ class Category:
         return result
 
 
+# порождающий паттерн Абстрактная фабрика - фабрика курсов
 class CourseFactory:
     types = {
         'interactive': InteractiveCourse,
         'record': RecordCourse
     }
 
+    # порождающий паттерн Фабричный метод
     @classmethod
     def create(cls, type_, name, category):
         return cls.types[type_](name, category)
 
 
-# категория
-class Category_old:
-    auto_id = 0
-
-    def __init__(self, name, category):
-        self.id = Category.auto_id
-        Category.auto_id += 1
-        self.name = name
-        self.category = category
-        self.courses = []
-
-    def course_count(self):
-        result = len(self.courses)
-        if self.category:
-            result += self.category.course_count()
-        return result
-
-
+# Основной интерфейс проекта
 class Engine:
     def __init__(self):
         self.teachers = []
@@ -159,6 +150,7 @@ class Engine:
         return val_decode_str.decode('UTF-8')
 
 
+# порождающий паттерн Синглтон
 class SingletonByName(type):
 
     def __init__(cls, name, bases, attrs, **kwargs):
@@ -185,7 +177,7 @@ class Logger(metaclass=SingletonByName):
         self.writer = writer
 
     def log(self, text):
-        text = f'log--> {text}'
+        text = f'log---> {text}'
         self.writer.write(text)
 
 

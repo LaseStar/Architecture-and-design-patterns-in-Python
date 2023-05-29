@@ -2,6 +2,7 @@ from jsonpickle import dumps, loads
 from lase_framework.templator import render
 
 
+# поведенческий паттерн - наблюдатель
 # Курс
 class Observer:
 
@@ -44,6 +45,7 @@ class BaseSerializer:
         return loads(data)
 
 
+# поведенческий паттерн - Шаблонный метод
 class TemplateView:
     template_name = 'template.html'
 
@@ -102,7 +104,7 @@ class CreateView(TemplateView):
             return super().__call__(request)
 
 
-# Стратегия
+# поведенческий паттерн - Стратегия
 class ConsoleWriter:
 
     def write(self, text):
